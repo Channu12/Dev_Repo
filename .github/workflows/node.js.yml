@@ -27,11 +27,16 @@ jobs:
     steps:
       - name: Trigger FireFlink Automation
         run: |
-         curl -X POST https://api.github.com/repos/Channu12/Fireflink_Integration/dispatches \
+          curl -X POST https://api.github.com/repos/Channu12/Fireflink_Integration/dispatches \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ secrets.PAT_TOKEN }}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -d '{
-          "event_type": "trigger-automation"
-              }'
+          "event_type": "trigger-automation",
+          "client_payload": {
+          "pr_number": "${{ github.event.pull_request.number }}",
+          "pr_title": "${{ github.event.pull_request.title }}",
+          "pr_branch": "${{ github.head_ref }}"
+          }
+          }'
 
